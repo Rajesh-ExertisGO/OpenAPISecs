@@ -1,0 +1,1427 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "2",
+    "title" : "[API] Ice Mobility 3PL API"
+  },
+  "host" : "developer.icemobility.com:9093",
+  "basePath" : "/ws/rest/api/v2/3pl",
+  "paths" : {
+    "/inbound-shipments" : {
+      "get" : {
+        "tags" : [ "inbound-shipments" ],
+        "summary" : "[WSS<>Ice MSSQL] (Listen) Inbound Shipment QUERY",
+        "description" : "List/Query latest inbound shipments. Default returns 10 records, can be up to 100 records.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "moreDataToken",
+          "description" : "Token to request more data from a previous operation.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "query",
+          "description" : "The term to be searched.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "offset",
+          "description" : "For pagination, number of records to skip. Default: 0.",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "For pagination, number of records to return. Default: 10, Max: 100.",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/inbound-shipmentsResponseList"
+            },
+            "headers" : {
+              "Link" : {
+                "type" : "string",
+                "description" : "URL which can be used to retrieve the next page of results."
+              },
+              "X-Page-Wrapper" : {
+                "type" : "string",
+                "description" : "String identifying the element in which the results are wrapped."
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/responses/400"
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "inbound-shipments" ],
+        "summary" : "[WSS<>Ice AX] (Listen) Inbound Shipment CREATE",
+        "description" : "Create a new inbound shipment.",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "[API] Inbound Shipment CREATE Request JSON",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/[API] Inbound Shipment CREATE Request JSON"
+          }
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Inbound Shipment CREATE Response JSON"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Inbound Shipment GET Response JSON"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "$ref" : "#/responses/404"
+          },
+          "409" : {
+            "description" : "Conflict",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      }
+    },
+    "/inbound-shipments/{shipmentNumber}" : {
+      "get" : {
+        "tags" : [ "inbound-shipments" ],
+        "summary" : "[WSS<>Ice MSSQL] (Listen) Inbound Shipment GET",
+        "description" : "Get a specific inbound shipment.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "shipmentNumber",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Inbound Shipment GET Response JSON"
+            }
+          },
+          "400" : {
+            "$ref" : "#/responses/400"
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      }
+    },
+    "/inventories" : {
+      "get" : {
+        "tags" : [ "inventories" ],
+        "summary" : "[WSS<>Ice MSSQL] (Listen) Inventory QUERY",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "moreDataToken",
+          "description" : "Token to request more data from a previous operation.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "query",
+          "description" : "The term to be searched.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "offset",
+          "description" : "For pagination, number of records to skip. Default: 0.",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "For pagination, number of records to return. Default: 100, Max: 1000.",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/inventoriesResponseList"
+            },
+            "headers" : {
+              "Link" : {
+                "type" : "string",
+                "description" : "URL which can be used to retrieve the next page of results."
+              },
+              "X-Page-Wrapper" : {
+                "type" : "string",
+                "description" : "String identifying the element in which the results are wrapped."
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/responses/400"
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      }
+    },
+    "/outbound-shipments" : {
+      "get" : {
+        "tags" : [ "outbound-shipments" ],
+        "summary" : "[WSS<>Ice MSSQL] (Listen) Outbound Shipment QUERY",
+        "description" : "List/Query latest outbound shipments. Default returns 10 records, can be up to 100 records.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "moreDataToken",
+          "description" : "Token to request more data from a previous operation.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "query",
+          "description" : "The term to be searched.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "offset",
+          "description" : "For pagination, number of records to skip. Default: 0.",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "For pagination, number of records to return. Default: 10, Max: 100.",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/outbound-shipmentsResponseList"
+            },
+            "headers" : {
+              "Link" : {
+                "type" : "string",
+                "description" : "URL which can be used to retrieve the next page of results."
+              },
+              "X-Page-Wrapper" : {
+                "type" : "string",
+                "description" : "String identifying the element in which the results are wrapped."
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/responses/400"
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "outbound-shipments" ],
+        "summary" : "[WSS<>Ice AX] (Listen) Outbound Shipment CREATE",
+        "description" : "Create a new outbound shipment.",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "[API] Outbound Shipment CREATE Request JSON",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/[API] Outbound Shipment CREATE Request JSON"
+          }
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Outbound Shipment CREATE Response JSON"
+            }
+          },
+          "201" : {
+            "description" : "Created",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Outbound Shipment CREATE Response JSON"
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "$ref" : "#/responses/404"
+          },
+          "409" : {
+            "description" : "Conflict",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      }
+    },
+    "/outbound-shipments/{shipmentNumber}" : {
+      "get" : {
+        "tags" : [ "outbound-shipments" ],
+        "summary" : "[WSS<>Ice MSSQL] (Listen) Outbound Shipment GET",
+        "description" : "Get a specific outbound shipment.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "shipmentNumber",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Outbound Shipment GET Response JSON"
+            }
+          },
+          "400" : {
+            "$ref" : "#/responses/400"
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      }
+    },
+    "/products" : {
+      "get" : {
+        "tags" : [ "products" ],
+        "summary" : "[WSS<>Ice MSSQL] (Listen) Product QUERY",
+        "description" : "List/Query products. Default returns 100 records, can be up to 1000 records.",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "moreDataToken",
+          "description" : "Token to request more data from a previous operation.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "header",
+          "name" : "request-id",
+          "description" : "If a Request-Id is submitted, it will be repeated in response, unique identifier to an API request, mostly used for troubleshooting.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "query",
+          "description" : "The term to be searched.",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "query",
+          "name" : "offset",
+          "description" : "For pagination, number of records to skip. Default: 0.",
+          "required" : false,
+          "type" : "integer"
+        }, {
+          "in" : "query",
+          "name" : "limit",
+          "description" : "For pagination, number of records to return. Default: 10, Max: 100.",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/productsResponseList"
+            },
+            "headers" : {
+              "Link" : {
+                "type" : "string",
+                "description" : "URL which can be used to retrieve the next page of results."
+              },
+              "X-Page-Wrapper" : {
+                "type" : "string",
+                "description" : "String identifying the element in which the results are wrapped."
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/responses/400"
+          },
+          "401" : {
+            "$ref" : "#/responses/401"
+          },
+          "404" : {
+            "description" : "Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "413" : {
+            "$ref" : "#/responses/413"
+          },
+          "429" : {
+            "$ref" : "#/responses/429"
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/[API] Error JSON"
+            }
+          },
+          "503" : {
+            "$ref" : "#/responses/503"
+          },
+          "522" : {
+            "$ref" : "#/responses/522"
+          },
+          "default" : {
+            "$ref" : "#/responses/default"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "[API] Error JSON" : {
+      "type" : "object",
+      "properties" : {
+        "detail" : {
+          "type" : "string"
+        },
+        "errors" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "detail" : {
+                "type" : "string"
+              },
+              "title" : {
+                "type" : "string"
+              },
+              "type" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "instance" : {
+          "type" : "string"
+        },
+        "requestId" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "timestamp" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "title" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        }
+      }
+    },
+    "[API] Inbound Shipment CREATE Request JSON" : {
+      "type" : "object",
+      "properties" : {
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Shipment delivery date. (ISO 8601 date: YYYY-MM-DD)"
+        },
+        "items" : {
+          "type" : "array",
+          "description" : "Items in shipment.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productNumber" : {
+                "type" : "string",
+                "description" : "Ice's product number. (Either productNumber or sku must be provided)",
+                "minLength" : 1,
+                "maxLength" : 20
+              },
+              "quantity" : {
+                "type" : "integer",
+                "format" : "int32",
+                "description" : "Number of units. (Greater than 0)"
+              },
+              "reference" : {
+                "type" : "string",
+                "description" : "Reference of shipment item.",
+                "minLength" : 1,
+                "maxLength" : 60
+              },
+              "sku" : {
+                "type" : "string",
+                "description" : "Vendor's product number. (Either productNumber or sku must be provided. Contact your account manager to configure sku first)",
+                "minLength" : 1,
+                "maxLength" : 20
+              },
+              "unit" : {
+                "type" : "string",
+                "description" : "The unit. (Options: Pcs|Pack|Case|Pallet. Default: Pcs. Contact your account manager to request more options)"
+              }
+            },
+            "required" : [ "quantity", "sku" ]
+          }
+        },
+        "reference" : {
+          "type" : "string",
+          "description" : "Reference for shipment.",
+          "minLength" : 1,
+          "maxLength" : 60
+        }
+      },
+      "required" : [ "reference" ]
+    },
+    "[API] Inbound Shipment CREATE Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "The date to be expected the shipment arrive."
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productNumber" : {
+                "type" : "string"
+              },
+              "quantity" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "receivedNow" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "reference" : {
+                "type" : "string"
+              },
+              "remainder" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "sku" : {
+                "type" : "string"
+              },
+              "status" : {
+                "type" : "string",
+                "description" : "(Opened|Delivered|Invoiced|Canceled)"
+              },
+              "unit" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "reference" : {
+          "type" : "string"
+        },
+        "shipmentNumber" : {
+          "type" : "string",
+          "description" : "The unique of the shipment."
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "(Opened|Delivered|Invoiced|Canceled)"
+        }
+      }
+    },
+    "[API] Inbound Shipment GET Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productNumber" : {
+                "type" : "string"
+              },
+              "quantity" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "receivedNow" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "reference" : {
+                "type" : "string"
+              },
+              "remainder" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "sku" : {
+                "type" : "string"
+              },
+              "status" : {
+                "type" : "string",
+                "description" : "(Opened|Delivered|Invoiced|Canceled)"
+              },
+              "unit" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "reference" : {
+          "type" : "string",
+          "minLength" : 1,
+          "maxLength" : 60
+        },
+        "shipmentNumber" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "(Opened|Delivered|Invoiced|Canceled)"
+        }
+      }
+    },
+    "[API] Inbound Shipment QUERY Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "reference" : {
+          "type" : "string"
+        },
+        "shipmentNumber" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "[API] Inventory QUERY Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "available" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "location" : {
+          "type" : "string"
+        },
+        "ordered" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "soon to be available"
+        },
+        "productNumber" : {
+          "type" : "string"
+        },
+        "reserved" : {
+          "type" : "integer",
+          "format" : "int32",
+          "description" : "soon to be shipped"
+        },
+        "sku" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "[API] Outbound Shipment CREATE Request JSON" : {
+      "type" : "object",
+      "properties" : {
+        "customerOrderDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Shipment order date. (ISO 8601 date: YYYY-MM-DD)"
+        },
+        "deliveryAddress" : {
+          "type" : "object",
+          "properties" : {
+            "city" : {
+              "type" : "string",
+              "minLength" : 1,
+              "maxLength" : 20
+            },
+            "companyName" : {
+              "type" : "string",
+              "description" : "Required. The recipient's most commonly used name (either Full Name or Company Name).",
+              "maxLength" : 60
+            },
+            "country" : {
+              "type" : "string",
+              "description" : "ISO 3166-1 alpha-3 code",
+              "minLength" : 1,
+              "maxLength" : 3
+            },
+            "email" : {
+              "type" : "string",
+              "maxLength" : 80
+            },
+            "fullname" : {
+              "type" : "string",
+              "description" : "Optional. Use this for the remaining name. If primary_name is a person, enter the company here (and vice versa).",
+              "maxLength" : 60
+            },
+            "phone" : {
+              "type" : "string",
+              "maxLength" : 60
+            },
+            "state" : {
+              "type" : "string",
+              "description" : "ISO 3166-2",
+              "minLength" : 1,
+              "maxLength" : 10
+            },
+            "street" : {
+              "type" : "string",
+              "minLength" : 1,
+              "maxLength" : 250
+            },
+            "zipcode" : {
+              "type" : "string",
+              "minLength" : 1,
+              "maxLength" : 10
+            }
+          },
+          "required" : [ "city", "country", "state", "street", "zipcode" ]
+        },
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "Shipment delivery date. (ISO 8601 date: YYYY-MM-DD)"
+        },
+        "deliveryMode" : {
+          "type" : "string",
+          "description" : "Default: NUPS-GRND, (please contact you account manager to get a full list of possible options.)"
+        },
+        "deliveryTerm" : {
+          "type" : "string",
+          "description" : "SC|FR",
+          "minLength" : 2,
+          "maxLength" : 2
+        },
+        "items" : {
+          "type" : "array",
+          "description" : "Items in shipment.",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "productNumber" : {
+                "type" : "string",
+                "description" : "Ice's product number. (Either productNumber or sku must be provided)",
+                "minLength" : 1,
+                "maxLength" : 20
+              },
+              "quantity" : {
+                "type" : "integer",
+                "format" : "int32",
+                "description" : "Number of units. (Greater than 0)"
+              },
+              "reference" : {
+                "type" : "string",
+                "description" : "Reference of shipment item.",
+                "minLength" : 1,
+                "maxLength" : 60
+              },
+              "sku" : {
+                "type" : "string",
+                "description" : "Customer's product number. (Either productNumber or sku must be provided. Contact your account manager to configure sku first)",
+                "minLength" : 1,
+                "maxLength" : 20
+              },
+              "unit" : {
+                "type" : "string",
+                "description" : "The unit. (Options: Pcs|Pack|Case|Pallet. Default: Pcs. Contact your account manager to request more options)"
+              }
+            },
+            "required" : [ "quantity" ]
+          }
+        },
+        "primaryReference" : {
+          "type" : "string",
+          "description" : "1st reference for shipment. Usually the order Id/Number from partner's system.",
+          "minLength" : 1,
+          "maxLength" : 60
+        },
+        "secondaryReference" : {
+          "type" : "string",
+          "description" : "2nd reference for shipment. For extra info",
+          "maxLength" : 20
+        },
+        "source" : {
+          "type" : "string",
+          "description" : "DS|IWR|IDS|IWT"
+        }
+      },
+      "required" : [ "deliveryTerm", "primaryReference", "source" ]
+    },
+    "[API] Outbound Shipment CREATE Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "customerOrderDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deliveryAddress" : {
+          "type" : "object",
+          "properties" : {
+            "city" : {
+              "type" : "string"
+            },
+            "companyName" : {
+              "type" : "string"
+            },
+            "country" : {
+              "type" : "string"
+            },
+            "email" : {
+              "type" : "string"
+            },
+            "fullname" : {
+              "type" : "string"
+            },
+            "phone" : {
+              "type" : "string"
+            },
+            "state" : {
+              "type" : "string"
+            },
+            "street" : {
+              "type" : "string"
+            },
+            "zipcode" : {
+              "type" : "string"
+            }
+          }
+        },
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deliveryMode" : {
+          "type" : "string"
+        },
+        "deliveryTerm" : {
+          "type" : "string"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "deliverNow" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "productNumber" : {
+                "type" : "string"
+              },
+              "quantity" : {
+                "type" : "string"
+              },
+              "reference" : {
+                "type" : "string"
+              },
+              "remainder" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "sku" : {
+                "type" : "string"
+              },
+              "status" : {
+                "type" : "string",
+                "description" : "(Opened|Delivered|Invoiced|Canceled)"
+              },
+              "unit" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "primaryReference" : {
+          "type" : "string"
+        },
+        "secondaryReference" : {
+          "type" : "string"
+        },
+        "shipmentNumber" : {
+          "type" : "string"
+        },
+        "source" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "(Open order|Delivered|Invoiced|Canceled)"
+        }
+      }
+    },
+    "[API] Outbound Shipment GET Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "customerOrderDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deliveryAddress" : {
+          "type" : "object",
+          "properties" : {
+            "city" : {
+              "type" : "string"
+            },
+            "companyName" : {
+              "type" : "string"
+            },
+            "country" : {
+              "type" : "string"
+            },
+            "email" : {
+              "type" : "string"
+            },
+            "fullname" : {
+              "type" : "string"
+            },
+            "phone" : {
+              "type" : "string"
+            },
+            "state" : {
+              "type" : "string"
+            },
+            "street" : {
+              "type" : "string"
+            },
+            "zipcode" : {
+              "type" : "string"
+            }
+          }
+        },
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deliveryMode" : {
+          "type" : "string"
+        },
+        "deliveryTerm" : {
+          "type" : "string"
+        },
+        "items" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object",
+            "properties" : {
+              "deliverNow" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "productNumber" : {
+                "type" : "string"
+              },
+              "quantity" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "reference" : {
+                "type" : "string"
+              },
+              "remainder" : {
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "sku" : {
+                "type" : "string"
+              },
+              "status" : {
+                "type" : "string",
+                "description" : "(Opened|Delivered|Invoiced|Canceled)"
+              },
+              "unit" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "primaryReference" : {
+          "type" : "string"
+        },
+        "secondaryReference" : {
+          "type" : "string"
+        },
+        "shipmentNumber" : {
+          "type" : "string"
+        },
+        "source" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "(Opened|Delivered|Invoiced|Canceled)"
+        }
+      }
+    },
+    "[API] Outbound Shipment QUERY Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "customerOrderDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deliveryAddress" : {
+          "type" : "object",
+          "properties" : {
+            "city" : {
+              "type" : "string"
+            },
+            "companyName" : {
+              "type" : "string"
+            },
+            "country" : {
+              "type" : "string"
+            },
+            "email" : {
+              "type" : "string"
+            },
+            "fullname" : {
+              "type" : "string"
+            },
+            "phone" : {
+              "type" : "string"
+            },
+            "state" : {
+              "type" : "string"
+            },
+            "street" : {
+              "type" : "string"
+            },
+            "zipcode" : {
+              "type" : "string"
+            }
+          }
+        },
+        "deliveryDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "deliveryMode" : {
+          "type" : "string"
+        },
+        "deliveryTerm" : {
+          "type" : "string"
+        },
+        "primaryReference" : {
+          "type" : "string"
+        },
+        "secondaryReference" : {
+          "type" : "string"
+        },
+        "shipmentNumber" : {
+          "type" : "string"
+        },
+        "source" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      }
+    },
+    "[API] Product QUERY Response JSON" : {
+      "type" : "object",
+      "properties" : {
+        "productNumber" : {
+          "type" : "string"
+        },
+        "serialized" : {
+          "type" : "boolean"
+        },
+        "sku" : {
+          "type" : "string"
+        }
+      }
+    },
+    "inbound-shipmentsResponseList" : {
+      "type" : "object",
+      "properties" : {
+        "[API] Inbound Shipment QUERY Response JSON" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/[API] Inbound Shipment QUERY Response JSON"
+          }
+        }
+      }
+    },
+    "inventoriesResponseList" : {
+      "type" : "object",
+      "properties" : {
+        "[API] Inventory QUERY Response JSON" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/[API] Inventory QUERY Response JSON"
+          }
+        }
+      }
+    },
+    "outbound-shipmentsResponseList" : {
+      "type" : "object",
+      "properties" : {
+        "[API] Outbound Shipment QUERY Response JSON" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/[API] Outbound Shipment QUERY Response JSON"
+          }
+        }
+      }
+    },
+    "productsResponseList" : {
+      "type" : "object",
+      "properties" : {
+        "[API] Product QUERY Response JSON" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/[API] Product QUERY Response JSON"
+          }
+        }
+      }
+    }
+  },
+  "responses" : {
+    "400" : {
+      "description" : "Bad Request - There are miscellaneous errors with the request, for example, mismatches between the request and what is allowed for the operation.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "401" : {
+      "description" : "Unauthorized or 403 Forbidden - Authentication errors.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "404" : {
+      "description" : "Not Found - Invalid URL path.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "413" : {
+      "description" : "Request Entity Too Large - The request data was too large. This is based on the SOA Input Size quota.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "429" : {
+      "description" : "Too Many Requests - The client exceeded the allowed request limit.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "500" : {
+      "description" : "Internal Server Error - This generic error message appears when an unexpected condition was encountered and a more specific message is not suitable.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "503" : {
+      "description" : "Service Unavailable - The caller has hit a throttle or the request was rejected because the Atom is starting or stopping.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "522" : {
+      "description" : "Connection Timed Out - This message is returned to the client when the SOA Worker Maximum Execution Time has been exceeded.",
+      "schema" : {
+        "type" : "string"
+      }
+    },
+    "default" : {
+      "description" : "Unidentified Exception",
+      "schema" : {
+        "type" : "string"
+      }
+    }
+  },
+  "schemes" : [ "https" ],
+  "securityDefinitions" : {
+    "basic" : {
+      "type" : "basic"
+    }
+  },
+  "security" : [ {
+    "basic" : [ ]
+  } ]
+}
